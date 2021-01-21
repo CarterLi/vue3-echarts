@@ -18,14 +18,14 @@ Echarts binding for [Vue 3](https://github.com/vuejs/vue-next)
 2. Register it in `components` of Vue options
 
     ```js
-    import { VEcharts } from 'vue3-echarts';
+    import { VueEcharts } from 'vue3-echarts';
 
     export default {
         data,
         methods,
         ...
         components: {
-            VEcharts,
+            VueEcharts,
         },
     }
     ```
@@ -33,12 +33,16 @@ Echarts binding for [Vue 3](https://github.com/vuejs/vue-next)
 3. Use the component in template
 
     ```html
-    <v-echarts :option="option" style="height: 500px" />
+    <vue-echarts :option="option" style="height: 500px" ref="chart" />
     ```
 
-    prop `option`  is required
+    prop `option` is required
 
-    Note: `v-echarts` has no height by default. You need to specify it manually. DOM size change is detected automatically using `ResizeObserver`, no manual `resize` call needed.
+    ```ts
+    (this.$refs.chart as VueEcharts).refreshOption();
+    ```
+
+    Note: `vue-echarts` has no height by default. You need to specify it manually. DOM size change is detected automatically using `ResizeObserver`, no manual `resize` call needed.
 
 ## Props
 
