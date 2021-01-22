@@ -64,11 +64,12 @@ let VueEcharts = VueEcharts_1 = class VueEcharts extends VueComponentBase {
         VueEcharts_1.ro.observe(this.$el);
     }
     beforeUnmount() {
+        var _a;
         if (this.chart) {
             this.chart.dispose();
             this.chart = undefined;
         }
-        VueEcharts_1.ro?.unobserve(this.$el);
+        (_a = VueEcharts_1.ro) === null || _a === void 0 ? void 0 : _a.unobserve(this.$el);
     }
     refreshOption() {
         if (!this.chart)

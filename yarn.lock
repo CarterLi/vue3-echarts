@@ -127,12 +127,13 @@ typescript@^4.1.3:
   resolved "https://registry.npm.taobao.org/typescript/download/typescript-4.1.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftypescript%2Fdownload%2Ftypescript-4.1.3.tgz#519d582bd94cba0cf8934c7d8e8467e473f53bb7"
   integrity sha1-UZ1YK9lMugz4k0x9joRn5HP1O7c=
 
-vue3-component-base@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.npm.taobao.org/vue3-component-base/download/vue3-component-base-0.0.2.tgz#9b41212e09b92de8a44eb192b259e0d1fbe47d0c"
-  integrity sha1-m0EhLgm5LeikTrGSslng0fvkfQw=
+vue3-component-base@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.npm.taobao.org/vue3-component-base/download/vue3-component-base-0.0.4.tgz?cache=0&sync_timestamp=1611297626870&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue3-component-base%2Fdownload%2Fvue3-component-base-0.0.4.tgz#c4e993d22e260b987be58724401eada3c0819784"
+  integrity sha1-xOmT0i4mC5h75YckQB6to8CBl4Q=
   dependencies:
     lodash-es "^4.17.20"
+    tslib "^2.1.0"
     vue "^3.0.0"
 
 vue@^3.0.0:
