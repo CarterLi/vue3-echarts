@@ -79,7 +79,7 @@ export class VueEcharts extends VueComponentBase {
     this.refreshChart();
     this.$el._component = this;
     if (!VueEcharts.ro) {
-      VueEcharts.ro = new ResizeObserver(function(this: void, entries) {
+      VueEcharts.ro = new ResizeObserver(function(this: void, entries: ResizeObserverEntry[]) {
         entries.forEach(entry => {
           const that = (entry.target as HTMLDivElement & { _component: VueEcharts })._component;
           if (entry.contentRect.width && entry.contentRect.height && that.chart && !that.resizing) {

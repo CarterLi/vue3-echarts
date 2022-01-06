@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "sourceMap": true,
+    "skipLibCheck": true,
     "lib": [
       "esnext",
       "dom",

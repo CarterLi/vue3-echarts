@@ -3,6 +3,8 @@
   "version": "1.0.3",
   "description": "Echarts binding for Vue 3",
   "main": "index.js",
+  "module": "index.js",
+  "type": "module",
   "repository": "git@github.com:CarterLi/vue3-echarts.git",
   "author": "李通洲 <carter.li@eoitek.com>",
   "bugs": {
@@ -14,13 +16,13 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "typescript": "^4.1.3"
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "echarts": "^5.0.1",
+    "echarts": "^5.2.2",
     "resize-observer-polyfill": "^1.5.1",
-    "tslib": "^2.1.0",
-    "vue": "^3.0.0",
-    "vue3-component-base": "^0.0.4"
+    "tslib": "^2.3.1",
+    "vue": "^3.2.26",
+    "vue3-component-base": "^0.0.9"
   }
 }
