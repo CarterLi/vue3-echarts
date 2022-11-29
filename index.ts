@@ -67,7 +67,9 @@ export class VueEcharts extends VueComponentBase {
   @Inreactive resizing: boolean;
   @Inreactive chart: EchartsInstance;
 
-  $el: HTMLDivElement & { _component: VueEcharts };
+  // Add a declare modifier to be able to override the existing $el
+  // base property and add more specific type information.
+  declare $el: HTMLDivElement & { _component: VueEcharts };
 
   static ro: ResizeObserver;
 
