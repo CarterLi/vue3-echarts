@@ -10,12 +10,7 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "lib": [
-      "esnext",
-      "dom",
-    ]
+    "lib": ["esnext", "dom"]
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

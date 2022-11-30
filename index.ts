@@ -1,8 +1,7 @@
 import * as echarts from 'echarts';
 import type { EChartsOption } from 'echarts';
 import ResizeObserver from 'resize-observer-polyfill';
-import { capitalize, h } from 'vue';
-import { Component, Inreactive, Prop, VueComponentBase, Watch } from 'vue3-component-base';
+import { capitalize, defineComponent, h, type PropType } from 'vue';
 
 // https://echarts.apache.org/zh/api.html#events
 const Events = [
@@ -43,47 +42,50 @@ const Events = [
 
 type EchartsInstance = ReturnType<typeof echarts.init>;
 
-@Component({
+export const VueEcharts = defineComponent({
   name: 'VueEcharts',
+
+  props: {
+    option: {
+      type: Object as PropType<EChartsOption>,
+    },
+    theme: {
+      type: String,
+      default: 'default',
+    },
+    groupId: {
+      type: String,
+      default: null,
+    },
+    loadingOption: {
+      type: Object,
+      default: () => ({
+        text: 'Loading...',
+        color: '#c23531',
+        textColor: '#489CFF',
+        spinnerRadius: 6,
+        lineWidth: 2,
+        maskColor: 'rgba(0, 0, 0, 0.1)',
+        zlevel: 0,
+      }),
+    },
+    initCfg: Object as PropType<Parameters<typeof echarts.init>[2]>,
+  },
+
   emits: Events,
-})
-export class VueEcharts extends VueComponentBase {
-  @Prop() readonly option: EChartsOption;
-  @Prop({ default: 'default' }) readonly theme: string;
-  @Prop() readonly groupId: string;
-  @Prop({
-    default: () => ({
-      text: '努力加载中',
-      color: '#c23531',
-      textColor: '#489CFF',
-      spinnerRadius: 6,
-      lineWidth: 2,
-      maskColor: 'rgba(0, 0, 0, 0.1)',
-      zlevel: 0,
-    }),
-  }) readonly loadingOption: Record<string, any>;
-  @Prop() readonly initCfg: Parameters<typeof echarts.init>[2];
 
-  @Inreactive resizing: boolean;
-  @Inreactive chart: EchartsInstance;
-
-  // Add a declare modifier to be able to override the existing $el
-  // base property and add more specific type information.
-  declare $el: HTMLDivElement & { _component: VueEcharts };
-
-  static ro: ResizeObserver;
-
-  render() {
-    return h('div', { class: 'vue-echarts' });
-  }
+  watch: {
+    option: 'refreshOption',
+    theme: 'refreshChart',
+  },
 
   mounted() {
     this.refreshChart();
     this.$el._component = this;
-    if (!VueEcharts.ro) {
-      VueEcharts.ro = new ResizeObserver(function(this: void, entries: ResizeObserverEntry[]) {
+    if (!VueEcharts._ro) {
+      VueEcharts._ro = new ResizeObserver(function (this: void, entries) {
         entries.forEach(entry => {
-          const that = (entry.target as HTMLDivElement & { _component: VueEcharts })._component;
+          const that = (entry.target as HTMLDivElement & { _component: any })._component;
           if (entry.contentRect.width && entry.contentRect.height && that.chart && !that.resizing) {
             that.resizing = true;
             requestAnimationFrame(() => {
@@ -95,56 +97,65 @@ export class VueEcharts extends VueComponentBase {
       });
     }
 
-    VueEcharts.ro.observe(this.$el);
-  }
+    VueEcharts._ro.observe(this.$el);
+  },
 
   beforeUnmount() {
     if (this.chart) {
       this.chart.dispose();
       this.chart = undefined;
     }
-    VueEcharts.ro?.unobserve(this.$el);
-  }
+    VueEcharts._ro?.unobserve(this.$el);
+  },
 
-  @Watch('option')
-  refreshOption() {
-    if (!this.chart) return;
-    if (this.option && Object.keys(this.option).some(x => /^[a-z]/.test(x))) {
-      this.chart.setOption(this.option, true);
-      if (this.$el.clientHeight) this.chart.resize();
-      this.chart.hideLoading();
-    } else {
-      this.chart.showLoading('default', this.loadingOption);
-    }
-  }
-
-  @Watch('theme')
-  refreshChart() {
-    if (this.chart) {
-      this.chart.dispose();
-      this.chart = undefined;
-    }
-
-    const chart = echarts.init(this.$el, this.theme, this.initCfg);
-    chart.group = this.groupId;
-
-    this.chart = chart;
-
-    this.refreshOption();
-
-    Events.forEach(x => {
-      const eventName = 'on' + capitalize(x);
-      if (typeof this.$.vnode.props[eventName] === 'function') {
-        chart.on(x, this.$emit.bind(this, x));
+  methods: {
+    setOption(...args: Parameters<EchartsInstance['setOption']>) {
+      return this.chart.setOption(...args);
+    },
+    dispatchAction(...args: Parameters<EchartsInstance['dispatchAction']>) {
+      return this.chart.dispatchAction(...args);
+    },
+    refreshChart() {
+      if (this.chart) {
+        this.chart.dispose();
+        this.chart = undefined;
       }
-    });
-  }
 
-  setOption(...args: Parameters<EchartsInstance['setOption']>) {
-    return this.chart.setOption(...args);
-  }
+      const chart = echarts.init(this.$el, this.theme, this.initCfg);
+      chart.group = this.groupId;
 
-  dispatchAction(...args: Parameters<EchartsInstance['dispatchAction']>) {
-    return this.chart.dispatchAction(...args);
-  }
-}
+      this.chart = chart;
+
+      this.refreshOption();
+
+      Events.forEach(x => {
+        const eventName = 'on' + capitalize(x);
+        if (typeof this.$.vnode.props[eventName] === 'function') {
+          chart.on(x, this.$emit.bind(this, x));
+        }
+      });
+    },
+    refreshOption() {
+      if (!this.chart) return;
+      if (this.option && Object.keys(this.option).some(x => /^[a-z]/.test(x))) {
+        this.chart.setOption(this.option, true);
+        if (this.$el.clientHeight) {
+          this.chart.resize({
+            width: this.$el.clientWidth,
+            height: this.$el.clientHeight,
+          });
+        }
+        this.chart.hideLoading();
+      } else {
+        this.chart.showLoading('default', this.loadingOption);
+      }
+    },
+    getInstance() {
+      return this.chart as EchartsInstance;
+    },
+  },
+
+  render() {
+    return h('div', { class: 'vue-echarts' });
+  },
+});
