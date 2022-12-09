@@ -1,9 +1,6 @@
-vue3-echarts
-====================
-
+# vue3-echarts
 
 [![npm](https://img.shields.io/npm/v/vue3-echarts.svg)](https://www.npmjs.com/package/vue3-echarts)
-
 
 Echarts binding for [Vue 3](https://github.com/vuejs/vue-next)
 
@@ -11,44 +8,44 @@ Echarts binding for [Vue 3](https://github.com/vuejs/vue-next)
 
 1. Install
 
-    ```shell
-    yarn add vue3-echarts
-    ```
+   ```shell
+   pnpm i vue3-echarts
+   ```
 
 2. Register it in `components` of Vue options
 
-    ```js
-    import { VueEcharts } from 'vue3-echarts';
+   ```js
+   import { VueEcharts } from 'vue3-echarts';
 
-    export default {
-        data,
-        methods,
-        ...
-        components: {
-            VueEcharts,
-        },
-    }
-    ```
+   export default {
+       data,
+       methods,
+       ...
+       components: {
+           VueEcharts,
+       },
+   }
+   ```
 
 3. Use the component in template
 
-    ```html
-    <vue-echarts :option="option" style="height: 500px" ref="chart" />
-    ```
+   ```html
+   <vue-echarts :option="option" style="height: 500px" ref="chart" />
+   ```
 
-    prop `option` is required
+   prop `option` is required
 
-    ```ts
-    (this.$refs.chart as VueEcharts).refreshOption();
-    ```
+   ```ts
+   (this.$refs.chart as InstanceType<typeof VueEcharts>).refreshOption();
+   ```
 
-    Note: `vue-echarts` has no height by default. You need to specify it manually. DOM size change is detected automatically using `ResizeObserver`, no manual `resize` call needed.
+   Note: `vue-echarts` has no height by default. You need to specify it manually. DOM size change is detected automatically using `ResizeObserver`, no manual `resize` call needed.
 
 ## Props
 
 ### option
 
-Type: `object`  
+Type: `object`
 
 Echarts option. Documents can be found here: <https://echarts.apache.org/en/option.html#title>. If `null`, `loading` animation will be shown
 
@@ -93,9 +90,17 @@ Alias of [echartsInstance.setOption](https://echarts.apache.org/en/api.html#echa
 
 Alias of [echartsInstance.dispatchAction](https://echarts.apache.org/en/api.html#echartsInstance.dispatchAction)
 
-## events
+## Events
 
-All echarts events are supported. Doc can be found here: https://echarts.apache.org/en/api.html#events
+### Supported events
+
+[All echarts events](https://github.com/CarterLi/vue3-echarts/blob/master/index.ts#L7) are supported. Doc can be found here: https://echarts.apache.org/en/api.html#events
+
+### Bind events
+
+```vue
+<vue-echarts @click="chartClicked" />
+```
 
 ## LICENSE
 
