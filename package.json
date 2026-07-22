@@ -6,22 +6,20 @@
   "module": "index.js",
   "type": "module",
   "repository": "git@github.com:CarterLi/vue3-echarts.git",
-  "author": "李通洲 <carter.li@eoitek.com>",
+  "author": "李通洲 <zhangsongcui@live.cn>",
   "bugs": {
     "url": "git@github.com:CarterLi/vue3-echarts.git",
-    "email": "carter.li@eoitek.com"
+    "email": "zhangsongcui@live.cn"
   },
   "scripts": {
     "build": "tsc -d -p ."
   },
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^2.8.0",
-    "typescript": "^4.9.3"
+    "typescript": "*"
   },
   "dependencies": {
-    "echarts": "^5.4.0",
-    "resize-observer-polyfill": "^1.5.1",
-    "vue": "^3.2.45"
+    "echarts": "*",
+    "vue": "^3"
   }
 }

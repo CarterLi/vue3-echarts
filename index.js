@@ -89,12 +89,11 @@ export const VueEcharts = defineComponent({
         VueEcharts._ro.observe(this.$el);
     },
     beforeUnmount() {
-        var _a;
         if (this.chart) {
             this.chart.dispose();
             this.chart = undefined;
         }
-        (_a = VueEcharts._ro) === null || _a === void 0 ? void 0 : _a.unobserve(this.$el);
+        VueEcharts._ro?.unobserve(this.$el);
     },
     methods: {
         setOption(...args) {

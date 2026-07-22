@@ -1,6 +1,5 @@
 import * as echarts from 'echarts';
 import type { EChartsOption } from 'echarts';
-import ResizeObserver from 'resize-observer-polyfill';
 import { capitalize, defineComponent, h, type PropType } from 'vue';
 
 // https://echarts.apache.org/zh/api.html#events
